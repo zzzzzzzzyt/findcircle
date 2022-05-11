@@ -99,5 +99,5 @@ def iterated_optimal_incircle_radius_get(contous, pixelx, pixely, small_r, big_r
 
 if __name__ == '__main__':
     print(time.thread_time())
-    max_circle('test.png')
+    max_circle('irregular.png')
     print(time.thread_time())
