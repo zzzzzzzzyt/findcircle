@@ -66,7 +66,8 @@ def max_circle(f):
     plot_x = np.linspace(0, 2 * math.pi, 100)
     circle_X = center[0] + radius * cos(plot_x)
     circle_Y = center[1] + radius * sin(plot_x)
-    print(radius * 2)
+    print("最终半径为",radius)
+
     plt.figure()
     plt.imshow(img_gray)
     plt.plot(circle_X, circle_Y)
@@ -94,8 +95,7 @@ def iterated_optimal_incircle_radius_get(contous, pixelx, pixely, small_r, big_r
         if not if_out:
             small_r = half_r
     radius = small_r
-    print("半径为：")
-    print(radius)
+    print("迭代半径为：",radius)
     return radius
 
 
