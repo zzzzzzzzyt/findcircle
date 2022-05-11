@@ -94,6 +94,8 @@ def iterated_optimal_incircle_radius_get(contous, pixelx, pixely, small_r, big_r
         if not if_out:
             small_r = half_r
     radius = small_r
+    print("半径为：")
+    print(radius)
     return radius
 
 
