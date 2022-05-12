@@ -6,6 +6,7 @@ import math
 import numpy as np
 from numpy.ma import cos, sin
 import matplotlib.pyplot as plt
+import _thread
 
 
 # 可以尝试多线程  为了快  之后看看
@@ -21,6 +22,7 @@ def max_circle(f):
     plot_x = np.linspace(0, 2 * math.pi, 100)
     plt.figure()
     plt.imshow(img_gray)
+    # 用多线程来解决速度缓慢的问题
     for c in contous:
         left_x = min(c[:, 0, 0])
         right_x = max(c[:, 0, 0])
@@ -101,5 +103,5 @@ def iterated_optimal_incircle_radius_get(contous, pixelx, pixely, small_r, big_r
 
 if __name__ == '__main__':
     print(time.thread_time())
-    max_circle('double.png')
+    max_circle('four.png')
     print(time.thread_time())
