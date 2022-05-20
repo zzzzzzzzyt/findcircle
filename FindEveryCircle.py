@@ -79,16 +79,16 @@ def max_circle(f):
 # 持续的获得圆的半径的函数
 def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, big_r, precision):
     radius = small_r
-    L = np.linspace(0, 2 * math.pi, 360)  # 确定圆散点剖分数360, 720
-    circle_x = pixel_x + radius * cos(L)
-    circle_y = pixel_y + radius * sin(L)
+    circle_distribute = np.linspace(0, 2 * math.pi, 360)  # 确定圆散点剖分数360, 720  就是圆半径的分散
+    circle_x = pixel_x + radius * cos(circle_distribute)
+    circle_y = pixel_y + radius * sin(circle_distribute)
     for i in range(len(circle_y)):
         if cv2.pointPolygonTest(contours, (circle_x[i], circle_y[i]), False) < 0:  # 如果圆散集有在轮廓之外的点
             return 0
     while big_r - small_r >= precision:  # 二分法寻找最大半径
         half_r = (small_r + big_r) / 2
-        circle_x = pixel_x + half_r * cos(L)
-        circle_y = pixel_y + half_r * sin(L)
+        circle_x = pixel_x + half_r * cos(circle_distribute)
+        circle_y = pixel_y + half_r * sin(circle_distribute)
         if_out = False
         for i in range(len(circle_y)):
             if cv2.pointPolygonTest(contours, (circle_x[i], circle_y[i]), False) < 0:  # 如果圆散集有在轮廓之外的点
