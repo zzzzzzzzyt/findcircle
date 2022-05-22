@@ -1,18 +1,16 @@
+import math
 import random
 import time
 
 import cv2
-import math
+import matplotlib.pyplot as plt
 import numpy as np
 from numpy.ma import cos, sin
-import matplotlib.pyplot as plt
-import _thread
 
 
 # 可以尝试多线程  为了快  之后看看
 
 def max_circle(f):
-
     img = cv2.imread(f, cv2.IMREAD_COLOR)
     plt.imshow(img)
     plt.show()
@@ -47,27 +45,27 @@ def max_circle(f):
                 if cv2.pointPolygonTest(c, (xx[i][j], yy[i][j]), False) > 0:
                     in_list.append((xx[i][j], yy[i][j]))
         in_point = np.array(in_list)
-    # pixel_x = in_point[:, 0]
-    # pixel_y = in_point[:, 1]
-    # 随机搜索百分之一像素提高内切圆半径下限
-        N = len(in_point)
-        rand_index = random.sample(range(N), N // 100)
+        # pixel_x = in_point[:, 0]
+        # pixel_y = in_point[:, 1]
+        # 随机搜索百分之一像素提高内切圆半径下限
+        n = len(in_point)
+        rand_index = random.sample(range(n), n // 100)
         rand_index.sort()
         radius = 0
         big_r = upper_r
         center = None
-        for id in rand_index:
-            tr = iterated_optimal_in_circle_radius_get(c, in_point[id][0], in_point[id][1], radius, big_r, precision)
+        for rand_id in rand_index:
+            tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r, precision)
             if tr > radius:
                 radius = tr
-                center = (in_point[id][0], in_point[id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
+                center = (in_point[rand_id][0], in_point[rand_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
         # 循环搜索剩余像素对应内切圆半径
-        loops_index = [i for i in range(N) if i not in rand_index]
-        for id in loops_index:
-            tr = iterated_optimal_in_circle_radius_get(c, in_point[id][0], in_point[id][1], radius, big_r, precision)
+        loops_index = [i for i in range(n) if i not in rand_index]
+        for loop_id in loops_index:
+            tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r, precision)
             if tr > radius:
                 radius = tr
-                center = (in_point[id][0], in_point[id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
+                center = (in_point[loop_id][0], in_point[loop_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
         circle_x = center[0] + radius * cos(plot_x)
         circle_y = center[1] + radius * sin(plot_x)
         print("最终半径为", radius)
@@ -102,6 +100,7 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
 
 
 if __name__ == '__main__':
-    print(time.thread_time())
-    max_circle('four.png')
-    print(time.thread_time())
+    start = time.perf_counter()
+    max_circle('pic/four.png')
+    end = time.perf_counter()
+    print("运行耗时", end - start)
