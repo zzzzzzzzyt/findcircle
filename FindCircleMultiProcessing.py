@@ -9,9 +9,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.ma import cos, sin
 
-# 声明了一个全局变量
-global plt
-
 
 # 多进程版本
 def max_circle(photo_path):
@@ -27,23 +24,23 @@ def max_circle(photo_path):
     # 创建进程组 目的是因为主进程是需要等待所有线程结束 才进行执行 我们并不能确定有多少个进程在执行 所以要创建相应的数组 存放进程
     processes = []
     # 用多进程来解决速度缓慢的问题  同时要考虑到进程同步的过程  我们要等所有进程结束 我们才能显示相应的圆
+    # 队列还是设置了一下限制
+    queue = multiprocessing.Queue(len(contours))
     for c in contours:
-        process = multiprocessing.Process(target=draw_circle, args=(c, plot_x,))
+        process = multiprocessing.Process(target=draw_circle, args=(c, plot_x, queue))
         process.start()
         processes.append(process)
     # 使用多进程 进行图像的处理
     for process in processes:
+        temp = queue.get()
+        plt.plot(temp[0], temp[1])
         process.join()
     # 可能要声明下全局变量
     plt.show()
 
 
-# 线程类 要创建 然后start
-global result
-global global_array
-
 #  提取出来的目的 就是用来当线程里面执行的参数
-def draw_circle(c, plot_x):
+def draw_circle(c, plot_x, queue):
     left_x = min(c[:, 0, 0])
     right_x = max(c[:, 0, 0])
     down_y = max(c[:, 0, 1])
@@ -88,8 +85,7 @@ def draw_circle(c, plot_x):
     circle_x = center[0] + radius * cos(plot_x)
     circle_y = center[1] + radius * sin(plot_x)
     print("最终半径为", radius)
-    global_array.
-
+    queue.put([circle_x, circle_y])
 
 
 # 持续的获得圆的半径的函数
@@ -119,8 +115,7 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    global_array = multiprocessing.Manager().Array()
-
-    max_circle('pic/four.png')
+    # global_array = multiprocessing.Manager().Array()
+    max_circle('pic/bigTrue.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
