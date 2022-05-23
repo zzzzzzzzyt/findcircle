@@ -34,18 +34,15 @@ def max_circle(photo_path):
     # 队列还是设置了一下限制
     # 要创建下 相应的进程锁 等锁解完 才能继续运行   因为我是四核所以可以同时运行四个进程
     process_queue = multiprocessing.Queue()
-
     # 利用进程池进行计算  进程池中的进程的数量跟我的电脑cpu核数一致
-    process_pool = multiprocessing.Pool(4)
+    process_pool = multiprocessing.Pool(processes=4)
 
     for c in contours:
         # 进行异步执行
-        process_pool.apply_async(draw_circle, args=(c, plot_x, process_queue))
+        process_pool.apply_async(draw_circle, (c, plot_x, process_queue,))
 
-    # 进程池关闭 进程池等待
-    process_pool.close()
-    process_pool.join()
-    # 等待所有进程池中进程执行结束
+    process_pool.close()  # 进程池关闭后不再接收新的请求
+    process_pool.join()  # 等待所有进程池的进程执行完毕
 
     # 将队列中的参数全部取出
     while not process_queue.empty():
