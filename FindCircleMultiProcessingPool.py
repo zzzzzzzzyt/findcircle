@@ -3,7 +3,6 @@ import math
 import multiprocessing
 import random
 import time
-
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -18,13 +17,16 @@ def max_circle(photo_path):
     # plt.imshow(img)
     # 用来显示
     # plt.show()
-    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     img_gray[img_gray < 130] = 0
     img_gray[img_gray >= 130] = 255
+    img_gray = 255-img_gray
+    # 进行反色处理
     plt.imshow(img_gray)
     plt.show()
-    # _, img_gray = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     contours, hierarchy = cv2.findContours(img_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
     plot_x = np.linspace(0, 2 * math.pi, 100)
     plt.figure()
     plt.imshow(img_gray)
@@ -34,8 +36,9 @@ def max_circle(photo_path):
     # 队列还是设置了一下限制
     # 要创建下 相应的进程锁 等锁解完 才能继续运行   因为我是四核所以可以同时运行四个进程
     process_queue = multiprocessing.Manager().Queue()
-    # 利用进程池进行计算  进程池中的进程的数量跟我的电脑cpu核数一致
-    process_pool = multiprocessing.Pool(processes=4)
+    # 利用进程池进行计算  进程池中的进程的数量跟我的电脑cpu核数一致  变通 根据使用的电脑处理器核数进行处理
+    current_cpu_count = multiprocessing.cpu_count()
+    process_pool = multiprocessing.Pool(processes=current_cpu_count)
 
     for c in contours:
         # 进行异步执行 怎么根本没进去
@@ -53,7 +56,6 @@ def max_circle(photo_path):
 
 #  提取出来的目的 就是用来当线程里面执行的参数
 def draw_circle(c, plot_x, queue):
-    print("hello")
     left_x = min(c[:, 0, 0])
     right_x = max(c[:, 0, 0])
     down_y = max(c[:, 0, 1])
@@ -129,6 +131,6 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
 if __name__ == '__main__':
     start = time.perf_counter()
     # global_array = multiprocessing.Manager().Array()
-    max_circle('pic/five.png')
+    max_circle('pic/bigTrue.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
