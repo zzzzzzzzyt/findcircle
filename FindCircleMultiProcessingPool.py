@@ -33,13 +33,13 @@ def max_circle(photo_path):
     # 用多进程来解决速度缓慢的问题  同时要考虑到进程同步的过程  我们要等所有进程结束 我们才能显示相应的圆
     # 队列还是设置了一下限制
     # 要创建下 相应的进程锁 等锁解完 才能继续运行   因为我是四核所以可以同时运行四个进程
-    process_queue = multiprocessing.Queue()
+    process_queue = multiprocessing.Manager().Queue()
     # 利用进程池进行计算  进程池中的进程的数量跟我的电脑cpu核数一致
     process_pool = multiprocessing.Pool(processes=4)
 
     for c in contours:
-        # 进行异步执行
-        process_pool.apply_async(draw_circle, (c, plot_x, process_queue,))
+        # 进行异步执行 怎么根本没进去
+        process_pool.apply_async(draw_circle, args=(c, plot_x, process_queue,))
 
     process_pool.close()  # 进程池关闭后不再接收新的请求
     process_pool.join()  # 等待所有进程池的进程执行完毕
@@ -53,6 +53,7 @@ def max_circle(photo_path):
 
 #  提取出来的目的 就是用来当线程里面执行的参数
 def draw_circle(c, plot_x, queue):
+    print("hello")
     left_x = min(c[:, 0, 0])
     right_x = max(c[:, 0, 0])
     down_y = max(c[:, 0, 1])
@@ -128,6 +129,6 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
 if __name__ == '__main__':
     start = time.perf_counter()
     # global_array = multiprocessing.Manager().Array()
-    max_circle('pic/four.png')
+    max_circle('pic/five.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
