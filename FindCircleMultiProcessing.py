@@ -33,7 +33,7 @@ def max_circle(photo_path):
     # 用多进程来解决速度缓慢的问题  同时要考虑到进程同步的过程  我们要等所有进程结束 我们才能显示相应的圆
     # 队列还是设置了一下限制
     # 要创建下 相应的进程锁 等锁解完 才能继续运行   因为我是四核所以可以同时运行四个进程
-    queue = multiprocessing.Queue(len(contours))
+    queue = multiprocessing.Manager().Queue(len(contours))
     lock1 = multiprocessing.Lock()
     lock2 = multiprocessing.Lock()
     lock3 = multiprocessing.Lock()
@@ -142,3 +142,8 @@ if __name__ == '__main__':
     max_circle('pic/four.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
+
+
+
+
+
