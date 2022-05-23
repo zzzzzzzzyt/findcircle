@@ -1,7 +1,7 @@
 import math
-import random
 # 导进多进程的包
 import multiprocessing
+import random
 import time
 
 import cv2
@@ -29,39 +29,33 @@ def max_circle(photo_path):
     plt.figure()
     plt.imshow(img_gray)
     # 创建进程组 目的是因为主进程是需要等待所有线程结束 才进行执行 我们并不能确定有多少个进程在执行 所以要创建相应的数组 存放进程
-    processes = []
+
     # 用多进程来解决速度缓慢的问题  同时要考虑到进程同步的过程  我们要等所有进程结束 我们才能显示相应的圆
     # 队列还是设置了一下限制
     # 要创建下 相应的进程锁 等锁解完 才能继续运行   因为我是四核所以可以同时运行四个进程
-    queue = multiprocessing.Queue(len(contours))
-    lock1 = multiprocessing.Lock()
-    lock2 = multiprocessing.Lock()
-    lock3 = multiprocessing.Lock()
-    lock4 = multiprocessing.Lock()
+    process_queue = multiprocessing.Queue()
 
-    lock_array = [lock1, lock2, lock3, lock4]
-    lock_index = 0
+    # 利用进程池进行计算  进程池中的进程的数量跟我的电脑cpu核数一致
+    process_pool = multiprocessing.Pool(4)
+
     for c in contours:
-        now_lock = lock_array[lock_index]
-        lock_index = (lock_index+1) % 4
-        process = multiprocessing.Process(target=draw_circle, args=(c, plot_x, queue, now_lock))
-        process.start()
-        processes.append(process)
-    # 使用多进程 进行图像的处理  想想看 怎么才能等其他线程全部结束
-    for process in processes:
-        process.join()
-    # 可能要声明下全局变量
+        # 进行异步执行
+        process_pool.apply_async(draw_circle, args=(c, plot_x, process_queue))
+
+    # 进程池关闭 进程池等待
+    process_pool.close()
+    process_pool.join()
+    # 等待所有进程池中进程执行结束
 
     # 将队列中的参数全部取出
-    while not queue.empty():
-        temp = queue.get()
+    while not process_queue.empty():
+        temp = process_queue.get()
         plt.plot(temp[0], temp[1])
     plt.show()
 
 
 #  提取出来的目的 就是用来当线程里面执行的参数
-def draw_circle(c, plot_x, queue, lock):
-    lock.acquire()
+def draw_circle(c, plot_x, queue):
     left_x = min(c[:, 0, 0])
     right_x = max(c[:, 0, 0])
     down_y = max(c[:, 0, 1])
@@ -107,8 +101,6 @@ def draw_circle(c, plot_x, queue, lock):
     circle_y = center[1] + radius * sin(plot_x)
     print("最终半径为", radius)
     queue.put([circle_x, circle_y])
-    lock.release()
-
 
 
 # 持续的获得圆的半径的函数
