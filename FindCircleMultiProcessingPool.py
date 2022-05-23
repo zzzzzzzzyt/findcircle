@@ -3,6 +3,7 @@ import math
 import multiprocessing
 import random
 import time
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -21,8 +22,10 @@ def max_circle(photo_path):
     img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     img_gray[img_gray < 130] = 0
     img_gray[img_gray >= 130] = 255
-    img_gray = 255-img_gray
+
     # 进行反色处理
+    # img_gray = 255 - img_gray
+
     plt.imshow(img_gray)
     plt.show()
     contours, hierarchy = cv2.findContours(img_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -84,16 +87,14 @@ def draw_circle(c, plot_x, queue):
     big_r = upper_r
     center = None
     for rand_id in rand_index:
-        tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r,
-                                                   precision)
+        tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r, precision)
         if tr > radius:
             radius = tr
             center = (in_point[rand_id][0], in_point[rand_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
     # 循环搜索剩余像素对应内切圆半径
     loops_index = [i for i in range(n) if i not in rand_index]
     for loop_id in loops_index:
-        tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r,
-                                                   precision)
+        tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r, precision)
         if tr > radius:
             radius = tr
             center = (in_point[loop_id][0], in_point[loop_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
@@ -131,6 +132,6 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
 if __name__ == '__main__':
     start = time.perf_counter()
     # global_array = multiprocessing.Manager().Array()
-    max_circle('pic/bigTrue.png')
+    max_circle('pic/four.png')
     end = time.perf_counter()
     print("运行耗时", end - start)

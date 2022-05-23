@@ -1,7 +1,7 @@
 import math
-import random
 # 导进多进程的包
 import multiprocessing
+import random
 import time
 
 import cv2
@@ -43,7 +43,7 @@ def max_circle(photo_path):
     lock_index = 0
     for c in contours:
         now_lock = lock_array[lock_index]
-        lock_index = (lock_index+1) % 4
+        lock_index = (lock_index + 1) % 4
         process = multiprocessing.Process(target=draw_circle, args=(c, plot_x, queue, now_lock))
         process.start()
         processes.append(process)
@@ -90,16 +90,14 @@ def draw_circle(c, plot_x, queue, lock):
     big_r = upper_r
     center = None
     for rand_id in rand_index:
-        tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r,
-                                                   precision)
+        tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r, precision)
         if tr > radius:
             radius = tr
             center = (in_point[rand_id][0], in_point[rand_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
     # 循环搜索剩余像素对应内切圆半径
     loops_index = [i for i in range(n) if i not in rand_index]
     for loop_id in loops_index:
-        tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r,
-                                                   precision)
+        tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r, precision)
         if tr > radius:
             radius = tr
             center = (in_point[loop_id][0], in_point[loop_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
@@ -108,7 +106,6 @@ def draw_circle(c, plot_x, queue, lock):
     print("最终半径为", radius)
     queue.put([circle_x, circle_y])
     lock.release()
-
 
 
 # 持续的获得圆的半径的函数
@@ -142,8 +139,3 @@ if __name__ == '__main__':
     max_circle('pic/four.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
-
-
-
-
-

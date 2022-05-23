@@ -95,7 +95,6 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
         if not if_out:
             small_r = half_r
     radius = small_r
-    print("迭代半径为：", radius)
     return radius
 
 
@@ -104,3 +103,4 @@ if __name__ == '__main__':
     max_circle('pic/four.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
+
