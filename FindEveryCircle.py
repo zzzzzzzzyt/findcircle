@@ -55,14 +55,16 @@ def max_circle(f):
         big_r = upper_r
         center = None
         for rand_id in rand_index:
-            tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r, precision)
+            tr = iterated_optimal_in_circle_radius_get(c, in_point[rand_id][0], in_point[rand_id][1], radius, big_r,
+                                                       precision)
             if tr > radius:
                 radius = tr
                 center = (in_point[rand_id][0], in_point[rand_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
         # 循环搜索剩余像素对应内切圆半径
         loops_index = [i for i in range(n) if i not in rand_index]
         for loop_id in loops_index:
-            tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r, precision)
+            tr = iterated_optimal_in_circle_radius_get(c, in_point[loop_id][0], in_point[loop_id][1], radius, big_r,
+                                                       precision)
             if tr > radius:
                 radius = tr
                 center = (in_point[loop_id][0], in_point[loop_id][1])  # 只有半径变大才允许位置变更，否则保持之前位置不变
@@ -103,4 +105,3 @@ if __name__ == '__main__':
     max_circle('pic/four.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
-
