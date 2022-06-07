@@ -67,7 +67,7 @@ def draw_circle(c, plot_x, queue, lock):
     down_y = max(c[:, 0, 1])
     up_y = min(c[:, 0, 1])
     upper_r = min(right_x - left_x, down_y - up_y) / 2
-    # 定义相切二分精度
+    # 定义相切二分精度 **就是乘方的意思
     precision = math.sqrt((right_x - left_x) ** 2 + (down_y - up_y) ** 2) / (2 ** 13)
     # 构造包含轮廓的矩形的所有像素点
     n_x = 2 ** 8
@@ -84,6 +84,7 @@ def draw_circle(c, plot_x, queue, lock):
     in_point = np.array(in_list)
     # 随机搜索百分之一像素提高内切圆半径下限
     n = len(in_point)
+    # //是整数除法
     rand_index = random.sample(range(n), n // 100)
     rand_index.sort()
     radius = 0
