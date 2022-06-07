@@ -45,7 +45,7 @@ def max_circle(photo_path):
 
     for c in contours:
         # 进行异步执行 怎么根本没进去
-        process_pool.apply_async(draw_circle, args=(c, plot_x, process_queue,))
+        process_pool.apply_async(draw_circle, args=(c, plot_x, process_queue))
 
     process_pool.close()  # 进程池关闭后不再接收新的请求
     process_pool.join()  # 等待所有进程池的进程执行完毕
