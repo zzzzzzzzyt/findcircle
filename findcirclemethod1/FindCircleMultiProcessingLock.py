@@ -139,6 +139,6 @@ def iterated_optimal_in_circle_radius_get(contours, pixel_x, pixel_y, small_r, b
 if __name__ == '__main__':
     start = time.perf_counter()
     # global_array = multiprocessing.Manager().Array()
-    max_circle('pic/four.png')
+    max_circle('../pic/four.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
