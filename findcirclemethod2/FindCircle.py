@@ -3,6 +3,7 @@ import numpy as np
 import time
 import matplotlib.pyplot as plt
 
+
 def find_circle(path):
     mask = cv2.imread(path)
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
@@ -10,14 +11,13 @@ def find_circle(path):
     # 识别轮廓
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
-
+    # 转换成数组
+    raw_dist = np.empty(mask_gray.shape, dtype=np.float32)
     plt.imshow(result)
     plt.show()
-    plt.figure()
 
     for contour in contours:
         # 计算到轮廓的距离
-        raw_dist = np.empty(mask_gray.shape, dtype=np.float32)
         for i in range(mask_gray.shape[0]):
             for j in range(mask_gray.shape[1]):
                 raw_dist[i, j] = cv2.pointPolygonTest(contour, (j, i), True)  # 检测点是否在轮廓内  然后获取这个点离轮廓的最近距离
@@ -35,6 +35,6 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/four.png')
+    find_circle('../pic/five.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
