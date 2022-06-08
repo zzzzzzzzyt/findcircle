@@ -15,9 +15,6 @@ if __name__ == '__main__':
     mm = cv2.resize(mask_grayqqqq, (int(cols / 8 / 4), int(rows / 8 / 4)))
     contours, _ = cv2.findContours(mm, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    cont = 0
-    cont2 = 0
-
     for i in contours:
         if 100 < cv2.contourArea(i):
             # print(cv2.contourArea(i))
