@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import time
 
+
 def find_circle(path):
     mask = cv2.imread(path)
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
@@ -16,15 +17,14 @@ def find_circle(path):
             raw_dist[i, j] = cv2.pointPolygonTest(contours[0], (j, i), True)
 
     # 获取最大值即内接圆半径，中心点坐标
-    minVal, maxVal, _, maxDistPt = cv2.minMaxLoc(raw_dist)
-    abs(minVal)
-    maxVal = abs(maxVal)
+    min_val, max_val, _, max_dist_pt = cv2.minMaxLoc(raw_dist)
+    abs(min_val)
+    max_val = abs(max_val)
 
     # 画出最大内接圆
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
-    radius = np.int(maxVal)
-    maxDistPt
-    cv2.circle(result, maxDistPt, radius, (0, 255, 0), 2, 1, 0)
+    radius = np.int(max_val)
+    cv2.circle(result, max_dist_pt, radius, (0, 255, 0), 2, 1, 0)
     cv2.imshow('Maximum inscribed circle', result)
     cv2.waitKey(0)
 
