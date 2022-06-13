@@ -19,28 +19,22 @@ def find_circle(path):
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
     raw_dist = np.empty(mask_gray.shape, dtype=np.float32)
-
     plt.imshow(result)
     plt.show()
     plt.figure()
-
     process_queue = multiprocessing.Manager().Queue()
     current_cpu_count = multiprocessing.cpu_count()
     process_pool = multiprocessing.Pool(processes=current_cpu_count)
-
     for contour in contours:
         # 画圈
         process_pool.apply_async(draw, args=(contour, mask_gray, raw_dist, process_queue))
-
     process_pool.close()  # 进程池关闭后不再接收新的请求
     process_pool.join()  # 等待所有进程池的进程执行完毕
-
     # cv2.imshow('Maximum inscribed circle', result)
     # cv2.waitKey(0)
     while not process_queue.empty():
         circle_element = process_queue.get()
         cv2.circle(result, circle_element[0], circle_element[1], (0, 255, 0), 2, 1, 0)
-
     plt.imshow(result)
     plt.show()
 
