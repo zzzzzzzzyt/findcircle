@@ -1,6 +1,7 @@
-import time
 # 导进多进程的包
 import multiprocessing
+import time
+
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
