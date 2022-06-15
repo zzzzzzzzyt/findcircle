@@ -13,8 +13,8 @@ import numpy as np
 def find_circle(path):
     mask = cv2.imread(path)
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
-    mask_gray[mask_gray < 130] = 0
-    mask_gray[mask_gray >= 130] = 255
+    mask_gray[mask_gray < 50] = 0
+    mask_gray[mask_gray >= 50] = 255
     # 识别轮廓
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
@@ -53,6 +53,6 @@ def draw(contour, mask_gray, raw_dist, process_queue):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/bigTrue.png')
+    find_circle('../pic/1.jpg')
     end = time.perf_counter()
     print("运行耗时", end - start)
