@@ -16,12 +16,12 @@ def find_circle(path):
     plt.imshow(mask_gray)
     plt.show()
 
-    # 形态学内核 参数作用
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    # 形态学开运算 参数作用
-    mask_gray = cv2.morphologyEx(mask_gray, cv2., kernel, 1)
-    plt.imshow(mask_gray)
-    plt.show()
+    # # 形态学内核 参数作用
+    # kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (4, 4))
+    # # 形态学闭运算 参数作用
+    # mask_gray = cv2.morphologyEx(mask_gray, cv2.MORPH_CLOSE, kernel)
+    # plt.imshow(mask_gray)
+    # plt.show()
 
     # 识别轮廓
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
