@@ -18,10 +18,9 @@ def find_circle(path):
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
     # 转换成数组
-    np.empty(mask_gray.shape, dtype=np.float32)
+    # np.empty(mask_gray.shape, dtype=np.float32)
     plt.imshow(result)
     plt.show()
-
     cv2.drawContours(mask, contours, -1, (0, 255, 255), 1)
     plt.imshow(mask)
     plt.show()

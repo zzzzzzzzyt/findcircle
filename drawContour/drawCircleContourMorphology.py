@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+
 # 进一步处理 先进行孔洞的膨胀  再进行腐蚀去掉一部分干扰的小孔
 
 def find_circle(path):
@@ -27,7 +28,6 @@ def find_circle(path):
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
     # 转换成数组
-    np.empty(mask_gray.shape, dtype=np.float32)
     plt.imshow(result)
     plt.show()
 
