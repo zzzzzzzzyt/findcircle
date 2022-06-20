@@ -2,8 +2,6 @@ import time
 
 import cv2
 import matplotlib.pyplot as plt
-import numpy as np
-
 
 
 # 进一步处理 先进行孔洞的膨胀  再进行腐蚀去掉一部分干扰的小孔
