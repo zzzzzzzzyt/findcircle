@@ -12,6 +12,8 @@ def find_circle(path):
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     mask_gray[mask_gray < 50] = 0
     mask_gray[mask_gray >= 50] = 255
+    # 进行反色处理
+    mask_gray = 255 - mask_gray
     # 识别轮廓
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)

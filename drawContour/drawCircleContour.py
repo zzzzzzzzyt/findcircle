@@ -10,6 +10,8 @@ def find_circle(path):
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     mask_gray[mask_gray < 50] = 0
     mask_gray[mask_gray >= 50] = 255
+    # 进行反色处理 因为我们要获取的是白色被轮廓包裹的区域
+    mask_gray = 255-mask_gray
     plt.imshow(mask_gray)
     plt.show()
     # 识别轮廓
