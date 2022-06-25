@@ -12,7 +12,7 @@ def find_circle(path):
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     mask_gray[mask_gray < 50] = 0
     mask_gray[mask_gray >= 50] = 255
-    # 进行反色处理
+    # 进行反色处理  因为我找到的里面是要白的
     mask_gray = 255 - mask_gray
     # 识别轮廓
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -24,6 +24,8 @@ def find_circle(path):
     area = 0
     for contour in contours:
         # 计算到轮廓的距离
+        x, y, w, h = cv2.boundingRect(contour)
+        cv2.rectangle(result, (x, y), (x + w, y + h), (153, 153, 0), 5)
         temp_area = cv2.contourArea(contour)
         area += temp_area
         print("面积是", temp_area)
