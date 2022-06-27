@@ -24,8 +24,8 @@ def find_circle(path):
     area = 0
     for contour in contours:
         # 计算到轮廓的距离
-        x, y, w, h = cv2.boundingRect(contour)
-        cv2.rectangle(result, (x, y), (x + w, y + h), (153, 153, 0), 5)
+        # x, y, w, h = cv2.boundingRect(contour)
+        # cv2.rectangle(result, (x, y), (x + w, y + h), (153, 153, 0), 5)
         temp_area = cv2.contourArea(contour)
         area += temp_area
         print("面积是", temp_area)
@@ -38,7 +38,7 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    area = find_circle('../pic/1.jpg')
+    area = find_circle('../pic/3.jpg')
     end = time.perf_counter()
     print("运行耗时", end - start)
     print("轮廓内面积为", area)
