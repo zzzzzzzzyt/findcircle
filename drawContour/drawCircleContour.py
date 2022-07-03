@@ -4,10 +4,15 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-# 直接测试实战的    这是没有进行形态学变化的
 
 def find_circle(path):
     mask = cv2.imread(path)
+    plt.imshow(mask)
+    plt.show()
+    # 图片的放大操作
+    # mask = cv2.resize(mask, (0, 0), fx=2, fy=2, interpolation=cv2.INTER_NEAREST)
+    plt.imshow(mask)
+    plt.show()
     mask_gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
     mask_gray[mask_gray < 50] = 0
     mask_gray[mask_gray >= 50] = 255
@@ -16,6 +21,8 @@ def find_circle(path):
     plt.imshow(mask_gray)
     plt.show()
     # 识别轮廓
+    # 进行放大处理
+
     contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
     # 转换成数组
@@ -23,12 +30,13 @@ def find_circle(path):
     plt.imshow(result)
     plt.show()
     cv2.drawContours(mask, contours, -1, (0, 255, 255), 1)
+    cv2.imwrite('../pic/11ff.png',mask)
     plt.imshow(mask)
     plt.show()
 
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/13.bmp')
+    find_circle('../pic/11.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
