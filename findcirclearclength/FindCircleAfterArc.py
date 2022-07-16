@@ -35,6 +35,6 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/11.png')
+    find_circle('../pic/15.bmp')
     end = time.perf_counter()
     print("运行耗时", end - start)

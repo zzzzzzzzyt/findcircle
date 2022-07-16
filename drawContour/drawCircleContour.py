@@ -30,13 +30,13 @@ def find_circle(path):
     plt.imshow(result)
     plt.show()
     cv2.drawContours(mask, contours, -1, (0, 255, 255), 1)
-    cv2.imwrite('../pic/11ff.png',mask)
+    cv2.imwrite('../pic/15ff.bmp',mask)
     plt.imshow(mask)
     plt.show()
 
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/11.png')
+    find_circle('../pic/15.bmp')
     end = time.perf_counter()
     print("运行耗时", end - start)
