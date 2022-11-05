@@ -6,7 +6,7 @@ import numpy as np
 import math
 
 
-# 直接测试实战的  这还是用普通的还没有加上我们的多进程呢 加上更快
+# 这就是直接通过相应方法求的 这应该就是 面积链码法
 
 def find_circle(path):
     mask = cv2.imread(path)
@@ -39,6 +39,6 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../test/circle.png')
+    find_circle('../test/test4.png')
     end = time.perf_counter()
     print("运行耗时", end - start)

@@ -31,7 +31,7 @@ def find_circle(mask):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    mask = cv2.imread('../test/circle.png')
+    mask = cv2.imread('../test/test4.png')
     whole_area = find_circle(mask)
     end = time.perf_counter()
     print("运行耗时", end - start)

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-# 这个的话 基本上是通过对应函数进行书写
+# 格林公式
 
 # 直接测试实战的
 
@@ -25,8 +25,6 @@ def find_circle(mask):
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
     # 转换成数组
     np.empty(mask_gray.shape, dtype=np.float32)
-    # plt.imshow(result)
-    # plt.show()
     area = 0
     for contour in contours:
         # 计算到轮廓的距离
@@ -38,7 +36,7 @@ def find_circle(mask):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    mask = cv2.imread('../test/circle.png')
+    mask = cv2.imread('../test/test4.png')
     whole_area = find_circle(mask)
     end = time.perf_counter()
     print("运行耗时", end - start)

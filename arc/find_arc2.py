@@ -28,7 +28,6 @@ def find_circle(path):
 
     for contour in contours:
         # 计算到轮廓的距离
-        print(contour)
         print("周长是", len(contour))
         print("半径是", len(contour)/(2*math.pi))
     # cv2.imshow('Maximum inscribed circle', result)
@@ -39,6 +38,6 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../test/circle.png')
+    find_circle('../test/test4.png')
     end = time.perf_counter()
     print("运行耗时", end - start)
