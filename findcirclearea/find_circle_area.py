@@ -45,7 +45,7 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    area = find_circle('../pic/3.jpg')
+    area = find_circle('../pic/test.jpg')
     end = time.perf_counter()
     print("运行耗时", end - start)
     print("轮廓内面积为", area)

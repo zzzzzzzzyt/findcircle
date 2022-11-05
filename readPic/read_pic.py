@@ -1,7 +1,7 @@
 """
 @Time ： 2022/7/3 14:35
 @Auth ： 祝英台炸油条
-@File ：ReadPic.py
+@File ：read_pic.py
 """
 
 # 检测下用什么方法可以使读入的图片损失没有那么严重

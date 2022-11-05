@@ -3,6 +3,7 @@ import time
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 
 
 # 直接测试实战的  这还是用普通的还没有加上我们的多进程呢 加上更快
@@ -27,6 +28,7 @@ def find_circle(path):
         # 计算到轮廓的距离
         perimeter = cv2.arcLength(contour, True)
         print("周长是", perimeter)
+        print("半径是", perimeter/(2*math.pi))
     # cv2.imshow('Maximum inscribed circle', result)
     # cv2.waitKey(0)
     plt.imshow(result)
@@ -35,6 +37,6 @@ def find_circle(path):
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/15.bmp')
+    find_circle('../pic/test.jpg')
     end = time.perf_counter()
     print("运行耗时", end - start)

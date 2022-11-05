@@ -23,20 +23,20 @@ def find_circle(path):
     # 识别轮廓
     # 进行放大处理
 
-    contours, _ = cv2.findContours(mask_gray, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(mask_gray, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     result = cv2.cvtColor(mask_gray, cv2.COLOR_GRAY2BGR)
     # 转换成数组
     # np.empty(mask_gray.shape, dtype=np.float32)
     plt.imshow(result)
     plt.show()
     cv2.drawContours(mask, contours, -1, (0, 255, 255), 1)
-    cv2.imwrite('../pic/15ff.bmp',mask)
+    cv2.imwrite('../realPic/5_contour.jpg',mask)
     plt.imshow(mask)
     plt.show()
 
 
 if __name__ == '__main__':
     start = time.perf_counter()
-    find_circle('../pic/15.bmp')
+    find_circle('../realPic/6.jpg')
     end = time.perf_counter()
     print("运行耗时", end - start)
